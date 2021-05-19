@@ -1,0 +1,159 @@
+app:
+  # Required: 组件名称
+  name: "foobar"
+
+  # Optional: 任意的标签
+  # 键值对
+  tags:
+    somekey: somevalue
+
+  # Required: 部署形式，pod 或 server
+  form: "pod"
+
+  # RequiredIf: 部署形式为 pod 时，pod 相关配置
+  pod:
+    # Required: 命名空间
+    namespace: "default"
+
+    # Optional: K8S 支持的工作负载类型 deployment/statefulset/daemonset
+    workload: "deployment"
+
+    # Optional: 副本数
+    replicas:
+      # Optional: 如果定义了 fixed，表示副本数必须严格等于该值，且其它字段（min,max）被忽略
+      fixed: 1
+
+      # Optional: 表示副本数不应该小于该值
+      min: 1
+
+      # Optional: 表示副本数不应该大于该值
+      max: 3
+
+  # Optional: 服务启停
+  startstop:
+    # key 表示一个服务名称
+    examplekey:
+      # 启动命令
+      start: ""
+
+      # 停止命令
+      stop: ""
+
+      # Reload命令
+      reload: ""
+
+      # 开机自启
+      autostart:
+        # Required: 是否需要开机自启
+        enabled: true
+
+        # Optional: 开机自启的机制，支持 systemd/sysvinit/upstart/crontab
+        mechanism: systemd
+
+        # Optional: systemd service name
+        systemd: ""
+
+        # Optional: sysvinit service name
+        sysvinit: ""
+
+        # Optional: upstart service name
+        upstart: ""
+
+        # Optional: crontab item
+        crontab: ""
+
+  # Optional: 进程
+  processes:
+    # Required: 进程查找模式，可以使用正则表达式
+    # 可以通过 "pgrep -f somepatten" 命令来检查指定的模式是否找出进程
+    - pattern: "somepattern"
+
+      # Optional: 进程别名
+      name: "a-process"
+
+      # Optional: 进程启动停止
+      # 引用 app['startstop'] 的 key
+      startstop: "example"
+
+      # Optional: 端口相关
+      # 一个进程可能监听了多个端口
+      # 如果进程没有监听端口或者不需要在这里说明，可以忽略这个字段
+      ports:
+        # Required: 监听的端口
+        - port: 12345
+
+          # Optional: host 字段可选
+          # 通常情况下，端口监听地址为 0.0.0.0 或者 特定的 IP 地址
+          # 只有监听地址为环回地址如 127.0.0.1 时，你需要明确制定 127.0.0.1
+          # 当不指定 host 字段时，默认设置为服务器的 IP 地址
+          host: 127.0.0.1
+
+      # Optional: 日志相关
+      logs:
+        # Required: 日志路径
+        - path: /data/log/imagestage/error.log
+
+          # Optional: 关键词
+          # 通常用于监控告警
+          keywords:
+            - "error"
+            - "alarm"
+
+  # Optional: 监控指标采集
+  metrics:
+    # Optional: 通过抓取 HTTP(s) 协议的 URL 采集指标
+    http:
+      # Required: 暴露指标的 URL
+      - url: "http://127.0.0.1/metrics"
+
+        # Required: 指标格式
+        format: prometheus
+
+        # Optional: 抓取间隔
+        interval: 60s
+
+        # Optional: HTTP 超时时间
+        timeout: 10s
+
+    # Optional: 通过自定义脚本采集指标
+    # 这些脚本会下发到组件所在主机
+    custom_scripts:
+      # Required: 文件类型（file 或者 template）
+      # 如果脚本不需要渲染，指定为 file
+      - type: file
+
+        # Required: 文件名
+        # 需要把脚本文件存放到组件 Ansibe Role 的 files 目录下
+        name: script1.sh
+
+        # Required: exec 和 name 文件名拼接成最终执行的命令
+        exec: bash
+
+        # Required: 脚本输出的指标格式
+        format: influx
+
+        # Optional: 脚本执行周期（指标采集间隔）
+        interval: 60s
+
+        # Optional: 脚本执行超时时间
+        timeout: 10s
+
+        # Required: 文件类型（file 或者 template）
+        # 如果脚本需要渲染，指定为 template
+      - type: template
+
+        # Required: 文件名
+        # 文件名必须有 j2 后缀，需要把脚本文件存放到组件 Ansible Role 的 templates 目录下
+        name: script2.sh.j2
+
+        # Required: exec 和 name 文件名（去掉 .j2 后缀）拼接成最终执行的命令
+        exec: bash
+
+        # Required: 脚本输出的指标格式
+        format: influx
+
+        # Optional: 脚本执行周期（指标采集间隔）
+        interval: 60s
+
+        # Optional: 脚本执行超时时间
+        timeout: 10s
