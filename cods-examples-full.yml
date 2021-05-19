@@ -18,7 +18,7 @@ app:
     # Optional: K8S 支持的工作负载类型 deployment/statefulset/daemonset
     workload: "deployment"
 
-    # Optional: 副本数
+    # Optional: Pod 副本数
     replicas:
       # Optional: 如果定义了 fixed，表示副本数必须严格等于该值，且其它字段（min,max）被忽略
       fixed: 1
@@ -71,6 +71,18 @@ app:
       # Optional: 进程别名
       name: "a-process"
 
+      # Optional: 进程数量
+      # 通过指定的 pattern 查找到的 pid 的数量
+      count:
+        # Optional: 如果定义了 fixed，表示副本数必须严格等于该值，且其它字段（min,max）被忽略
+        fixed: 1
+
+        # Optional: 表示进程数不应该小于该值
+        min: 1
+
+        # Optional: 表示进程数不应该大于该值
+        max: 3
+
       # Optional: 进程启动停止
       # 引用 app['startstop'] 的 key
       startstop: "example"
@@ -98,6 +110,14 @@ app:
           keywords:
             - "error"
             - "alarm"
+
+      # Optional: 配置文件相关
+      configs:
+        # Required: 配置文件路径
+        - path: /path/to/some.conf
+
+          # Optional: 描述
+          descr: "description"
 
   # Optional: 监控指标采集
   metrics:
