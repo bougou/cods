@@ -43,7 +43,7 @@ app:
       reload: ""
 
       # 开机自启
-      autostart:
+      autoStart:
         # Required: 是否需要开机自启
         enabled: true
 
@@ -68,7 +68,7 @@ app:
     # 可以通过 "pgrep -f somepatten" 命令来检查指定的模式是否找出进程
     - pattern: "somepattern"
 
-      # Optional: 进程别名
+      # Required: 进程别名
       name: "a-process"
 
       # Optional: 进程数量
@@ -83,9 +83,23 @@ app:
         # Optional: 表示进程数不应该大于该值
         max: 3
 
+      # Optional: 进程健康检查
+      healthCheck:
+        # Optional: 通过 http GET 检测
+        # Now, any http response code greater than or equal to 200 and less than 400 indicates success. Any other code indicates failure.
+        httpGet:
+          # Required: http url 地址
+          url: "http://127.0.0.1/health"
+
+        # Optional: 通过执行任意命令检测
+        # 命令 ExitCode 等于 0 代表正常，等同于 Shell 中使用 $? 检测
+        exec:
+          # Required: 要执行的命令
+          command: "curl http://127.0.0.1"
+
       # Optional: 进程启动停止
       # 引用 app['startstop'] 的 key
-      startstop: "example"
+      startStop: "example"
 
       # Optional: 端口相关
       # 一个进程可能监听了多个端口
