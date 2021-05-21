@@ -82,21 +82,6 @@ app:
 
         # Optional: 表示进程数不应该大于该值
         max: 3
-
-      # Optional: 进程健康检查
-      healthCheck:
-        # Optional: 通过 http GET 检测
-        # Now, any http response code greater than or equal to 200 and less than 400 indicates success. Any other code indicates failure.
-        httpGet:
-          # Required: http url 地址
-          url: "http://127.0.0.1/health"
-
-        # Optional: 通过执行任意命令检测
-        # 命令 ExitCode 等于 0 代表正常，等同于 Shell 中使用 $? 检测
-        exec:
-          # Required: 要执行的命令
-          command: "curl http://127.0.0.1"
-
       # Optional: 进程启动停止
       # 引用 app['startstop'] 的 key
       startStop: "example"
@@ -113,6 +98,35 @@ app:
           # 只有监听地址为环回地址如 127.0.0.1 时，你需要明确制定 127.0.0.1
           # 当不指定 host 字段时，默认设置为服务器的 IP 地址
           host: 127.0.0.1
+
+      # Optional: 进程健康检查
+      healthCheck:
+        # Optional: 通过 http GET 检测
+        # Now, any http response code greater than or equal to 200 and less than 400 indicates success. Any other code indicates failure.
+        # 不支持自定义 http response code 作为健康判断条件
+        # 比如，如果你想指定 404 作为成功的判断条件，请使用 exec 方式
+        # 通过命令行上结合 grep awk 等 shell 工具来判断
+        httpGet:
+          # Required: http url 地址
+          url: "http://127.0.0.1"
+
+          # Optional: 超时时间
+          timeout: 30s
+
+          # Optional: 检查间隔
+          interval: 60s
+
+        # Optional: 通过执行任意命令检测
+        # 命令 ExitCode 等于 0 代表正常，等同于 Shell 中使用 $? 检测
+        exec:
+          # Required: 要执行的命令
+          command: "curl http://127.0.0.1"
+
+          # Optional: 超时时间
+          timeout: 30s
+
+          # Optional: 检查间隔
+          interval: 60s
 
       # Optional: 日志相关
       logs:
