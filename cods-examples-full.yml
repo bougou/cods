@@ -102,10 +102,9 @@ app:
       # Optional: 进程健康检查
       healthCheck:
         # Optional: 通过 http GET 检测
-        # Now, any http response code greater than or equal to 200 and less than 400 indicates success. Any other code indicates failure.
+        # 目前，http response code >=200 and <400 表示正常，其它 code 代表异常
         # 不支持自定义 http response code 作为健康判断条件
-        # 比如，如果你想指定 404 作为成功的判断条件，请使用 exec 方式
-        # 通过命令行上结合 grep awk 等 shell 工具来判断
+        # 如果你想使用 404 作为成功的判断条件，请使用 exec 方式，通过命令行上结合 grep、awk 等 shell 工具来判断
         httpGet:
           # Required: http url 地址
           url: "http://127.0.0.1"
@@ -185,6 +184,12 @@ app:
 
         # Optional: 脚本执行超时时间
         timeout: 10s
+
+        # Optional: 委托给某个组件（组件的名字 app.name）
+        # 目前只支持委托到部署形态为 server 的组件（app.form == "server"）
+        # 脚本会被下发到被委托的组件所在主机
+        # 如果不需要委托，不要指定该字段
+        delegate_to: ""
 
         # Required: 文件类型（file 或者 template）
         # 如果脚本需要渲染，指定为 template
