@@ -2,6 +2,10 @@ app:
   # Required: 组件名称
   name: "foobar"
 
+  # Optional: 组件描述
+  # 用途，功能等说明
+  desc: "foobar is xxx"
+
   # Optional: 任意的标签
   # 键值对
   tags:
@@ -28,6 +32,17 @@ app:
 
       # Optional: 表示副本数不应该大于该值
       max: 3
+
+  # Optional: 部署
+  deploy:
+    # Optional: 基础目录
+    base_dir: ""
+    # Optional: 安装目录
+    install_dir: ""
+    # Optional: 程序运行日志目录
+    log_dir: ""
+    # Optional: 程序数据目录
+    data_dir: ""
 
   # Optional: 服务启停
   startstop:
@@ -60,6 +75,7 @@ app:
         upstart: ""
 
         # Optional: crontab item
+        # 如果 autoStart.mechanism 是 crontab，这里填写完成的 cron 项
         crontab: ""
 
   # Optional: 进程
@@ -145,6 +161,13 @@ app:
 
           # Optional: 描述
           descr: "description"
+
+  # Optional: 定时任务
+  cron:
+    # Required: 完整的 cron item
+    - item: ""
+      # Optional: 描述
+      descr: ""
 
   # Optional: 监控指标采集
   metrics:
