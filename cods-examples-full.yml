@@ -4,7 +4,7 @@ app:
 
   # Optional: 组件描述
   # 用途，功能等说明
-  desc: "foobar is xxx"
+  description: "foobar is xxx"
 
   # Optional: 任意的标签
   # 键值对
@@ -35,6 +35,20 @@ app:
 
   # Optional: 部署
   deploy:
+    # Optional: 资源限制
+    # 用途：
+    # 1. 对于 form=server 组件，可以用于在部署该组件前对机器的资源进行检查，如果不符合要求，提示失败
+    # 2. 对于 form=pod 组件，可以用于 K8S Pod 资源声明中的值
+    resources:
+      # CPU 核心数
+      cpu:
+        request: 1
+        limit: 1
+      # 内存 Gigabytes
+      memory:
+        request: 1
+        limit: 1
+
     # Optional: 基础目录
     base_dir: ""
     # Optional: 安装目录
@@ -45,7 +59,7 @@ app:
     data_dir: ""
 
   # Optional: 服务启停
-  startstop:
+  startStop:
     # key 表示一个服务名称
     examplekey:
       # 启动命令
@@ -75,17 +89,23 @@ app:
         upstart: ""
 
         # Optional: crontab item
-        # 如果 autoStart.mechanism 是 crontab，这里填写完成的 cron 项
+        # 如果 autoStart.mechanism 是 crontab，这里填写完整的 cron 项
         crontab: ""
 
   # Optional: 进程
   processes:
     # Required: 进程查找模式，可以使用正则表达式
-    # 可以通过 "pgrep -f somepatten" 命令来检查指定的模式是否找出进程
+    # 可以通过 "pgrep -f somepatten" 命令来测试指定的模式是否能查找出进程
     - pattern: "somepattern"
 
       # Required: 进程别名
       name: "a-process"
+
+      # Optional: 进程类型
+      # daemon or once，默认为 daemon
+      # daemon: 常驻进程
+      # once: 开机运行一次，即退出
+      type: "daemon"
 
       # Optional: 进程数量
       # 通过指定的 pattern 查找到的 pid 的数量
@@ -99,7 +119,7 @@ app:
         # Optional: 表示进程数不应该大于该值
         max: 3
       # Optional: 进程启动停止
-      # 引用 app['startstop'] 的 key
+      # 引用 app['startStop'] 的 key
       startStop: "example"
 
       # Optional: 端口相关
@@ -160,14 +180,14 @@ app:
         - path: /path/to/some.conf
 
           # Optional: 描述
-          descr: "description"
+          description: ""
 
   # Optional: 定时任务
   cron:
     # Required: 完整的 cron item
     - item: ""
       # Optional: 描述
-      descr: ""
+      description: ""
 
   # Optional: 监控指标采集
   metrics:

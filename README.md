@@ -1,6 +1,6 @@
 # CODS
 
-The Component Operation Declaration Specification (CODS) is a specification for defing  operation traits of an application component.
+The Component Operation Declaration Specification (CODS) is a specification for defining operation traits of an application component.
 
 The Component Operation Declaration (COD):
 
