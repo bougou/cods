@@ -89,7 +89,7 @@ app:
         upstart: ""
 
         # Optional: crontab item
-        # 如果 autoStart.mechanism 是 crontab，这里填写完整的 cron 项
+        # 如果 autoStart.mechanism 是 crontab，这里引用 app['cron'] 的 key
         crontab: ""
 
   # Optional: 进程
@@ -184,8 +184,10 @@ app:
 
   # Optional: 定时任务
   cron:
-    # Required: 完整的 cron item
-    - item: ""
+    # key 表示一个 cron 项
+    exampleKey:
+      # Required: 完整的 cron 内容
+      content: ""
       # Optional: 描述
       description: ""
 
