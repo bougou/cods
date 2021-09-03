@@ -92,6 +92,11 @@ app:
         # 如果 autoStart.mechanism 是 crontab，这里引用 app['cron'] 的 key
         crontab: ""
 
+      # 服务崩溃自启
+      crashRestart:
+        enabled: true
+        mechanism: systemd
+
   # Optional: 进程
   processes:
     # Required: 进程查找模式，可以使用正则表达式
@@ -254,4 +259,34 @@ app:
         interval: 60s
 
         # Optional: 脚本执行超时时间
+        timeout: 10s
+
+    # Optional: 通过命令的标准输出来采集指标
+    exec:
+      # Required: 需要执行的命令，命令的标准输出即采集的指标
+      - command: ""
+
+        # Required: 指标格式
+        format: prometheus
+
+        # Optional: 命令执行的间隔
+        interval: 60s
+
+        # Optional: 命令每次执行时的超时时间，必须小于 interval
+        timeout: 10s
+
+    # 区别于 exec 的地方是：
+    # exec 是将命令的输出作为采集的指标（任意的输出，任意的指标）。
+    # exec_return_code 不关心命令的输出，只关心命令在 shell 中执行的的 return_code。产生的指标名是唯一的，即 exec_return_code
+    exec_return_code:
+      # Required: 需要执行的命令（不关心命令的输出，通常将命令的输出 >/dev/null）
+      - command: ""
+
+        # Required: 一个有意义的名字，可以使用该字段来表达执行该命令的目的
+        name: ""
+
+        # Optional: 命令执行的间隔
+        interval: 60s
+
+        # Optional: 命令每次执行时的超时时间，必须小于 interval
         timeout: 10s
