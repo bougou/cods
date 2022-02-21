@@ -179,7 +179,7 @@ app:
       # Optional: 日志相关
       logs:
         # Required: 日志路径
-        - path: /data/log/imagestage/error.log
+        - path: /path/to/some.log
 
           # Optional: 关键词
           # 通常用于监控告警
@@ -192,6 +192,13 @@ app:
         # Required: 配置文件路径
         - path: /path/to/some.conf
 
+          # Optional: 描述
+          description: ""
+
+      # Optionals: 其它文件
+      files:
+        # Required: 文件路径
+        - path: /path/to/somefile.txt
           # Optional: 描述
           description: ""
 
