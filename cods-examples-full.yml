@@ -127,6 +127,14 @@ app:
       # 引用 app['startStop'] 的 key
       startStop: "example"
 
+      version: ""
+
+      # 查看 version 的方法
+      versionGetter:
+        # 通过命令的标准输出获得版本信息
+        # 最好输出单行信息，如果是多行的话，只取第一行
+        exec: "cat /path/to/version.txt"
+
       # Optional: 端口相关
       # 一个进程可能监听了多个端口
       # 如果进程没有监听端口或者不需要在这里说明，可以忽略这个字段
