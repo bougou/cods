@@ -35,28 +35,14 @@ app:
 
   # Optional: 部署
   deploy:
-    # Optional: 资源限制
-    # 用途：
-    # 1. 对于 form=server 组件，可以用于在部署该组件前对机器的资源进行检查，如果不符合要求，提示失败
-    # 2. 对于 form=pod 组件，可以用于 K8S Pod 资源声明中的值
-    resources:
-      # CPU 核心数
-      cpu:
-        request: 1
-        limit: 1
-      # 内存 Gigabytes
-      memory:
-        request: 1
-        limit: 1
-
     # Optional: 基础目录
-    base_dir: ""
+    baseDir: ""
     # Optional: 安装目录
-    install_dir: ""
+    installDir: ""
     # Optional: 程序运行日志目录
-    log_dir: ""
+    logDir: ""
     # Optional: 程序数据目录
-    data_dir: ""
+    dataDir: ""
 
   # Optional: 服务启停
   startStop:
